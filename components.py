@@ -9,10 +9,6 @@ def esc(texto):
     return html.escape(str(texto), quote=True)
 
 
-def brl(valor):
-    return "R$" + f"{int(valor):,}".replace(",", ".")
-
-
 def verificar_texto(texto):
     baixo = texto.lower()
     return [termo for termo in PROIBIDAS if termo in baixo]

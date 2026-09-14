@@ -1,9 +1,4 @@
-from components import brl, esc, verificar_texto, cta, imagem, ornamento
-
-
-def test_brl_formata_milhar_com_ponto():
-    assert brl(1497) == "R$1.497"
-    assert brl(15) == "R$15"
+from components import esc, verificar_texto, cta, imagem, ornamento
 
 
 def test_esc_protege_html():

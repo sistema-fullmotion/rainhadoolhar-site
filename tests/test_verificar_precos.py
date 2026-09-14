@@ -22,8 +22,8 @@ def test_tudo_igual_nao_acusa_nada():
     assert comparar(maapp()) == []
 
 
-def test_preco_diferente_e_acusado():
-    assert comparar(maapp(**{"Hidragloss": {"price": 70}})) == ["Hidragloss: Maapp R$70, site R$60"]
+def test_preco_diferente_nao_e_mais_acusado():
+    assert comparar(maapp(**{"Hidragloss": {"price": 70}})) == []
 
 
 def test_oferta_oculta_no_agendamento_e_acusada():

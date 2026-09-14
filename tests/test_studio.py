@@ -1,4 +1,5 @@
 import re
+import build as modulo
 from page_studio import render_studio
 from data import NEGOCIO, ALT_FOTOS
 
@@ -21,10 +22,14 @@ def test_todo_botao_de_agendar_vai_para_o_maapp():
     assert set(botoes) == {NEGOCIO["maapp_url"]}
 
 
-def test_precos_de_servicos_ofertas_e_pacotes():
+def test_pagina_nao_mostra_nenhum_preco():
     h = pagina()
-    for valor in ["R$180", "R$150", "R$600", "R$315", "R$220", "R$295", "R$200", "R$395", "R$372", "R$285"]:
-        assert valor in h, valor
+    assert "R$" not in modulo._texto_visivel(h)
+    assert "R$" not in h
+    assert "<s>" not in h
+    assert 'class="preco"' not in h
+    assert 'class="preco-grande"' not in h
+    assert 'class="preco-oferta"' not in h
 
 
 def test_nap_instagram_e_prova_social():

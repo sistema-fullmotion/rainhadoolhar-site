@@ -1,6 +1,6 @@
-"""Página da Academy: cursos com preço e contato pelo WhatsApp."""
-from components import esc, brl, cta, ornamento
-from data import NEGOCIO, CURSOS, ADICIONAL_FOTOS, PAGAMENTO_CURSOS, AVALIACAO_ACADEMY
+"""Página da Academy: cursos e contato pelo WhatsApp."""
+from components import esc, cta, ornamento
+from data import NEGOCIO, CURSOS, PAGAMENTO_CURSOS, AVALIACAO_ACADEMY
 from head import render_head
 from schema import curso, jsonld_script
 
@@ -11,11 +11,10 @@ BOTAO = "Quero saber das próximas datas"
 
 
 def _curso(c):
-    de = f"<s>{brl(c['de'])}</s> " if c.get("de") else ""
     inclui = "".join(f"<li>{esc(item)}</li>" for item in c["inclui"])
     aviso = f'<p class="aviso">{esc(c["aviso"])}</p>' if c.get("aviso") else ""
     return (f'<article class="cartao"><h3>{esc(c["nome"])}</h3><p class="formato">{esc(c["formato"])}</p>'
-            f'<p class="preco-oferta">{de}{brl(c["preco"])}</p><ul class="inclui">{inclui}</ul>{aviso}</article>')
+            f'<ul class="inclui">{inclui}</ul>{aviso}</article>')
 
 
 def render_academy(css_versao, gtm_id=None):
@@ -44,9 +43,9 @@ def render_academy(css_versao, gtm_id=None):
   <blockquote class="avaliacao"><p>“{esc(a['texto'])}”</p><footer>{esc(a['nome'])} · avaliação no Google</footer></blockquote>
 </section>
 <section id="pagamento">
-  <h2>Valores e pagamento</h2>
+  <h2>Pagamento</h2>
   <p>{esc(PAGAMENTO_CURSOS)}.</p>
-  <p>Adicional: pacote de fotos prontas para o seu portfólio, {brl(ADICIONAL_FOTOS)}. As fotos e vídeos do atendimento que você faz no curso já estão inclusos.</p>
+  <p>Adicional: pacote de fotos prontas para o seu portfólio. As fotos e vídeos do atendimento que você faz no curso já estão inclusos.</p>
   <p>Curso não garante agenda cheia. Garante técnica, biossegurança e prática de verdade.</p>
 </section>
 <section id="contato" class="destaque">

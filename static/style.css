@@ -41,17 +41,12 @@ p{margin:0 0 14px;max-width:62ch}
 .lista-servicos li{padding:12px 0;border-bottom:1px solid var(--linha)}
 .servico{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
 .servico .nome{font-family:var(--serif);font-size:20px}
-.preco{font-family:var(--serif);font-size:22px;color:var(--dourado-texto);white-space:nowrap;font-variant-numeric:tabular-nums}
 .detalhe{font-size:14.5px;color:var(--suave);margin:4px 0 0}
 .destaque{background:var(--branco);border:1px solid var(--linha);padding:40px 24px;margin:40px 0;text-align:center}
 .destaque p{margin-left:auto;margin-right:auto}
-.preco-grande{font-family:var(--serif);font-size:44px;color:var(--dourado-texto)}
-.preco-grande s,.preco-oferta s{font-size:.55em;color:var(--suave);margin-right:6px}
 .subtitulo{margin-top:26px}
 .cartoes{display:grid;gap:16px}
 .cartao{background:var(--branco);border:1px solid var(--linha);padding:22px}
-.preco-oferta{font-family:var(--serif);font-size:30px;color:var(--dourado-texto);margin:6px 0 12px}
-.preco-oferta small{font-family:var(--sans);font-size:14px;color:var(--suave)}
 .aviso,.formato{font-size:14.5px;color:var(--suave)}
 .regua{list-style:none;padding:0;margin:20px 0;display:grid;gap:12px}
 .regua li{background:var(--branco);border-left:3px solid var(--dourado);padding:14px 18px;display:grid;gap:2px}

@@ -1,5 +1,6 @@
 import json
 import re
+import build as modulo
 from page_academy import render_academy
 from data import NEGOCIO
 
@@ -8,10 +9,12 @@ def pagina():
     return render_academy(css_versao="teste")
 
 
-def test_precos_dos_cursos():
+def test_pagina_nao_mostra_nenhum_preco():
     h = pagina()
-    for valor in ["R$1.497", "R$2.297", "R$797", "R$997", "R$1.597", "R$1.794", "R$100"]:
-        assert valor in h, valor
+    assert "R$" not in modulo._texto_visivel(h)
+    assert "R$" not in h
+    assert "<s>" not in h
+    assert 'class="preco-oferta"' not in h
 
 
 def test_botoes_vao_para_o_whatsapp():

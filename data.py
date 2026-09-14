@@ -47,7 +47,7 @@ SERVICOS = [
         {"nome": "Lash lifting", "preco": 120, "duracao": "1h",
          "texto": "Seus próprios cílios alinhados para cima, sem extensão."},
         {"nome": "Remoção", "preco": 15, "duracao": "30 min",
-         "texto": "R$30 quando a aplicação foi feita por outra profissional."},
+         "texto": "Valor diferente quando a aplicação foi feita por outra profissional."},
     ]},
     {"categoria": "Sobrancelhas", "itens": [
         {"nome": "Design personalizado", "preco": 50, "duracao": "30 min",
@@ -94,7 +94,7 @@ PACOTES = [
     {"nome": "Reconstrução", "preco": 372, "de": 390,
      "inclui": "6 sessões de reconstrução de sobrancelhas", "primeira_sessao": "Reconstrução"},
     {"nome": "Plano de manutenção", "preco": 285, "de": 300,
-     "inclui": "2 manutenções de cílios por mês", "primeira_sessao": "Manutenção", "sufixo": "por mês"},
+     "inclui": "2 manutenções de cílios por mês", "primeira_sessao": "Manutenção"},
 ]
 
 _PARTICULAR = [

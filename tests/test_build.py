@@ -50,3 +50,11 @@ def test_paginas_reais_passam_na_regra_de_texto(tmp_path):
     for rel in ["index.html", "academy/index.html"]:
         pagina = (tmp_path / "dist" / rel).read_text(encoding="utf-8")
         assert verificar_texto(modulo._texto_visivel(pagina)) == [], rel
+
+
+def test_paginas_reais_nao_mostram_precos(tmp_path):
+    (tmp_path / "fotos").mkdir()
+    build(tmp_path / "dist", tmp_path / "fotos", exigir_fotos=False)
+    for rel in ["index.html", "academy/index.html"]:
+        pagina = (tmp_path / "dist" / rel).read_text(encoding="utf-8")
+        assert "R$" not in pagina, rel

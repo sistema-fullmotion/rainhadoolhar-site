@@ -17,18 +17,27 @@ def test_beauty_salon_com_nap_exato_e_sem_estrelas():
     assert "aggregateRating" not in texto and '"review"' not in texto
 
 
+def test_beauty_salon_sem_price_range():
+    s = beauty_salon()
+    assert "priceRange" not in s
+
+
 def test_horario_no_formato_do_google():
     horarios = beauty_salon()["openingHoursSpecification"]
     assert horarios[0]["dayOfWeek"][0] == "Monday" and horarios[0]["closes"] == "22:00"
     assert horarios[1]["dayOfWeek"] == ["Saturday"] and horarios[1]["closes"] == "17:00"
 
 
-def test_curso_com_preco_em_reais():
+def test_curso_sem_preco_nas_offers():
     c = curso(CURSOS[0])
     assert c["@type"] == "Course"
-    assert c["offers"]["priceCurrency"] == "BRL"
-    assert c["offers"]["price"] == "1497.00"
+    assert c["offers"]["@type"] == "Offer"
+    assert c["offers"]["category"] == "Paid"
+    assert "price" not in c["offers"]
+    assert "priceCurrency" not in c["offers"]
     assert c["hasCourseInstance"]["courseMode"] == "Onsite"
+    texto = json.dumps(c)
+    assert "R$" not in texto
 
 
 def test_jsonld_script_nao_quebra_a_tag():

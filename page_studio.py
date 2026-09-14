@@ -1,13 +1,13 @@
 """Página principal: o studio. Dez seções, na ordem aprovada em 13/09/2026."""
-from components import esc, brl, cta, imagem, ornamento
+from components import esc, cta, imagem, ornamento
 from data import (NEGOCIO, HORARIO, HORARIO_FECHADO, SERVICOS, PRIMEIRO_OLHAR, COMBOS, PACOTES,
-                  AVALIACOES_STUDIO, FAQ, ALT_FOTOS, preco)
+                  AVALIACOES_STUDIO, FAQ, ALT_FOTOS)
 from head import render_head
 from schema import beauty_salon, jsonld_script
 
 TITULO = "Extensão de cílios e sobrancelhas no Rio Comprido | Rainha do Olhar"
 DESCRICAO = (f"Studio de cílios, sobrancelhas e lábios no Rio Comprido. Nota {NEGOCIO['nota_google']} no Google "
-             f"com {NEGOCIO['avaliacoes_google']} avaliações. Veja os preços e agende pelo Maapp.")
+             f"com {NEGOCIO['avaliacoes_google']} avaliações. Agende pelo Maapp.")
 GALERIA = ["cilios-classico", "cilios-mega", "cilios-efeito", "sobrancelha-design", "sobrancelha-henna",
            "sobrancelha-lamination", "sobrancelha-reconstrucao", "labios-hidragloss"]
 MAAPP = NEGOCIO["maapp_url"]
@@ -41,15 +41,14 @@ def _servicos():
     blocos = []
     for cat in SERVICOS:
         linhas = "".join(
-            f'<li><div class="servico"><span class="nome">{esc(it["nome"])}</span>'
-            f'<span class="preco">{brl(it["preco"])}</span></div>'
+            f'<li><div class="servico"><span class="nome">{esc(it["nome"])}</span></div>'
             f'<p class="detalhe">{esc(it["duracao"])} · {esc(it["texto"])}</p></li>'
             for it in cat["itens"])
         blocos.append(f'<div class="categoria"><h3>{esc(cat["categoria"])}</h3>'
                       f'<ul class="lista-servicos">{linhas}</ul></div>')
     return f'''<section id="servicos">
   {ornamento()}
-  <h2>Serviços e preços</h2>
+  <h2>Serviços</h2>
   <div class="categorias">{"".join(blocos)}</div>
   <div class="centro">{cta(MAAPP, "Agendar horário", "servicos")}</div>
 </section>'''
@@ -61,16 +60,14 @@ def _primeiro_olhar():
   <p class="eyebrow">Para quem vem pela primeira vez</p>
   <h2>{esc(po['nome'])}</h2>
   <p>{esc(po['texto'])}</p>
-  <p class="preco-grande"><s>{brl(po['de'])}</s> {brl(po['preco'])}</p>
+  <p class="detalhe">Duração: {esc(po['duracao'])}</p>
   {cta(MAAPP, "Quero o Primeiro Olhar", "primeiro-olhar")}
 </section>'''
 
 
 def _cartao(oferta, rastreio, texto_botao, aviso=""):
-    sufixo = f' <small>{esc(oferta["sufixo"])}</small>' if oferta.get("sufixo") else ""
     aviso_html = f'<p class="aviso">{esc(aviso)}</p>' if aviso else ""
     return (f'<article class="cartao"><h3>{esc(oferta["nome"])}</h3><p>{esc(oferta["inclui"])}</p>'
-            f'<p class="preco-oferta"><s>{brl(oferta["de"])}</s> {brl(oferta["preco"])}{sufixo}</p>'
             f'{aviso_html}{cta(MAAPP, texto_botao, rastreio, "secundario")}</article>')
 
 
@@ -95,8 +92,8 @@ def _manutencao():
   <h2>Como funciona a manutenção</h2>
   <p>Seu cílio natural troca sozinho, e o fio aplicado vai junto. Por isso a manutenção faz parte da rotina, e não é sinal de que caiu antes da hora.</p>
   <ul class="regua">
-    <li><strong>Até 21 dias</strong><span>é manutenção: {brl(preco("Manutenção (até 21 dias)"))}</span></li>
-    <li><strong>Depois de 21 dias</strong><span>o cílio natural já renovou quase todo, e o certo é uma aplicação nova, a partir de {brl(preco("Volume Brasileiro ou Egípcio"))}</span></li>
+    <li><strong>Até 21 dias</strong><span>é manutenção.</span></li>
+    <li><strong>Depois de 21 dias</strong><span>o cílio natural já renovou quase todo, e o certo é uma aplicação nova.</span></li>
   </ul>
   <p class="dica">Dica: marque a próxima manutenção na saída do atendimento. Assim você garante o horário e não perde o prazo.</p>
 </section>'''

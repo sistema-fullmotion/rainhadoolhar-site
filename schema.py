@@ -18,7 +18,6 @@ def beauty_salon():
         "url": n["site_url"] + "/",
         "image": n["site_url"] + "/img/og.jpg",
         "telephone": n["telefone_e164"],
-        "priceRange": "R$15 a R$600",
         "address": _endereco(),
         "geo": {"@type": "GeoCoordinates", "latitude": n["lat"], "longitude": n["lng"]},
         "openingHoursSpecification": [
@@ -37,7 +36,7 @@ def curso(c):
         "description": c["resumo"],
         "provider": {"@type": "Organization", "name": "Rainha do Olhar Academy",
                      "sameAs": NEGOCIO["site_url"] + "/academy/"},
-        "offers": {"@type": "Offer", "category": "Paid", "priceCurrency": "BRL", "price": f"{c['preco']:.2f}"},
+        "offers": {"@type": "Offer", "category": "Paid"},
         "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "Onsite",
                               "location": {"@type": "Place", "name": NEGOCIO["nome"], "address": _endereco()}},
     }
