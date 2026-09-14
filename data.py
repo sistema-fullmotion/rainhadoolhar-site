@@ -77,6 +77,20 @@ PRIMEIRO_OLHAR = {
     "nome": "Primeiro Olhar", "preco": 315, "de": 330, "duracao": "1h30",
     "texto": "Aplicação completa no volume brasileiro ou egípcio e a sua primeira manutenção, "
              "que você já marca na saída.",
+    "argumento": "Sai mais em conta do que marcar a aplicação e a manutenção separadas.",
+}
+
+# Cada serviço que já tem foto de atendimento real, para virar cartão na seção Serviços.
+# Serviço sem entrada aqui aparece em lista compacta (sem foto, sem cartão).
+FOTO_SERVICO = {
+    "Volume Brasileiro ou Egípcio": "cilios-classico",
+    "Mega Volumes": "cilios-mega",
+    "Efeitos (Sirena, Fox, Molhado, Kardashian)": "cilios-efeito",
+    "Design personalizado": "sobrancelha-design",
+    "Design com henna": "sobrancelha-henna",
+    "Brow Lamination": "sobrancelha-lamination",
+    "Reconstrução de sobrancelhas": "sobrancelha-reconstrucao",
+    "Hidragloss": "labios-hidragloss",
 }
 
 COMBOS = [
@@ -198,6 +212,7 @@ ALT_FOTOS = {
     "labios-hidragloss": "Lábios depois do hidragloss",
     "studio": "Espaço do studio Rainha do Olhar no Rio Comprido",
     "laryssa": "Laryssa, do Rainha do Olhar",
+    "hero": "Cliente com extensão de cílios mega volume feita no Rainha do Olhar",
     "micropigmentacao-antes": "Sobrancelha antes da micropigmentação",
     "micropigmentacao-depois": "Sobrancelha depois da micropigmentação, no Rainha do Olhar",
 }

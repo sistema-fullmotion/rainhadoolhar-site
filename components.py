@@ -19,11 +19,12 @@ def cta(href, texto, rastreio, variante="primario"):
             f'data-cta="{esc(rastreio)}">{esc(texto)}</a>')
 
 
-def imagem(nome, info, alt, sizes="(min-width: 720px) 25vw, 50vw", carregar="lazy"):
+def imagem(nome, info, alt, sizes="(min-width: 720px) 25vw, 50vw", carregar="lazy", prioridade=False):
     srcset = ", ".join(f"/img/{nome}-{largura}.webp {largura}w" for largura in info["larguras"])
     maior = info["larguras"][-1]
+    extra = ' fetchpriority="high"' if prioridade else ""
     return (f'<img src="/img/{nome}-{maior}.webp" srcset="{srcset}" sizes="{esc(sizes)}" '
-            f'width="{info["w"]}" height="{info["h"]}" alt="{esc(alt)}" loading="{carregar}" decoding="async">')
+            f'width="{info["w"]}" height="{info["h"]}" alt="{esc(alt)}" loading="{carregar}" decoding="async"{extra}>')
 
 
 def ornamento():

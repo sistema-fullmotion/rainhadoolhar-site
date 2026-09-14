@@ -23,6 +23,14 @@ def test_imagem_tem_srcset_e_dimensoes():
     assert 'src="/img/studio-960.webp"' in html
     assert 'srcset="/img/studio-480.webp 480w, /img/studio-960.webp 960w"' in html
     assert 'width="960" height="1200"' in html and 'loading="lazy"' in html
+    assert 'fetchpriority' not in html
+
+
+def test_imagem_com_prioridade_carrega_eager_e_fetchpriority_alto():
+    html = imagem("hero", {"larguras": [480, 960], "w": 960, "h": 1200}, "Cliente",
+                  carregar="eager", prioridade=True)
+    assert 'loading="eager"' in html
+    assert 'fetchpriority="high"' in html
 
 
 def test_ornamento_e_decorativo():

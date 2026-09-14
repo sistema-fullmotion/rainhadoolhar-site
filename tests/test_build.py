@@ -10,6 +10,7 @@ def _fotos(pasta):
     pasta.mkdir()
     for nome in FOTOS_OBRIGATORIAS:
         Image.new("RGB", (1080, 1350), (190, 170, 150)).save(pasta / f"{nome}.jpg")
+    Image.new("RGB", (1080, 1350), (190, 170, 150)).save(pasta / "studio.jpg")
 
 
 def test_build_completo_gera_paginas_e_assets(tmp_path):
@@ -32,6 +33,18 @@ def test_build_funciona_sem_a_foto_de_reconstrucao(tmp_path):
     assert "sobrancelha-reconstrucao" not in pagina
     assert not (saida / "img" / "sobrancelha-reconstrucao-960.webp").exists()
     assert (saida / "img" / "studio-960.webp").exists()
+
+
+def test_build_funciona_sem_a_foto_do_studio_e_og_usa_outra_foto(tmp_path):
+    pasta = tmp_path / "fotos"
+    _fotos(pasta)
+    (pasta / "studio.jpg").unlink()
+    saida = tmp_path / "dist"
+    build(saida, pasta, exigir_fotos=True)
+    assert not (saida / "img" / "studio-960.webp").exists()
+    assert (saida / "img" / "og.jpg").exists()
+    pagina = (saida / "index.html").read_text(encoding="utf-8")
+    assert 'src="/img/studio-' not in pagina
 
 
 def test_build_sem_foto_obrigatoria_falha_listando(tmp_path):

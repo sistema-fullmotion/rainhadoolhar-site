@@ -4,9 +4,12 @@ from PIL import Image, ImageOps
 
 FOTOS_OBRIGATORIAS = ["cilios-classico", "cilios-mega", "cilios-efeito", "sobrancelha-design",
                       "sobrancelha-henna", "sobrancelha-lamination",
-                      "labios-hidragloss", "studio", "laryssa"]
+                      "labios-hidragloss", "laryssa"]
 # Fotos que aparecem quando existem em fotos/, mas não travam o build se ainda não chegaram.
-FOTOS_OPCIONAIS = ["sobrancelha-reconstrucao", "micropigmentacao-antes", "micropigmentacao-depois"]
+# "studio" fica opcional porque a foto do espaço não é mais exibida na página (só serve de
+# reserva para a imagem de og.jpg quando presente).
+FOTOS_OPCIONAIS = ["sobrancelha-reconstrucao", "micropigmentacao-antes", "micropigmentacao-depois",
+                   "studio", "hero"]
 TODAS_FOTOS = FOTOS_OBRIGATORIAS + FOTOS_OPCIONAIS
 LARGURAS = (480, 960)
 EXTENSOES = (".jpg", ".jpeg", ".png", ".webp")

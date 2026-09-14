@@ -18,10 +18,17 @@ def test_reconstrucao_e_micropigmentacao_sao_opcionais():
     assert {"micropigmentacao-antes", "micropigmentacao-depois"} <= set(FOTOS_OPCIONAIS)
 
 
+def test_studio_e_hero_sao_opcionais():
+    assert "studio" not in FOTOS_OBRIGATORIAS
+    assert "studio" in FOTOS_OPCIONAIS
+    assert "hero" not in FOTOS_OBRIGATORIAS
+    assert "hero" in FOTOS_OPCIONAIS
+
+
 def test_faltando_lista_as_ausentes(tmp_path):
-    _cria(tmp_path, "studio")
+    _cria(tmp_path, "cilios-classico")
     ausentes = faltando(tmp_path)
-    assert "studio" not in ausentes and "laryssa" in ausentes
+    assert "cilios-classico" not in ausentes and "laryssa" in ausentes
     assert len(ausentes) == len(FOTOS_OBRIGATORIAS) - 1
 
 

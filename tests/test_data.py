@@ -1,5 +1,5 @@
 from data import (NEGOCIO, SERVICOS, PRIMEIRO_OLHAR, COMBOS, PACOTES, CURSOS, FAQ,
-                  AVALIACOES_STUDIO, ALT_FOTOS, preco)
+                  AVALIACOES_STUDIO, ALT_FOTOS, FOTO_SERVICO, preco)
 
 
 def test_nap_igual_ao_google():
@@ -49,7 +49,22 @@ def test_cinco_cursos_com_os_precos_da_academy():
 
 def test_avaliacoes_e_fotos_prontas():
     assert len(AVALIACOES_STUDIO) == 4
-    assert len(ALT_FOTOS) == 12
+    assert len(ALT_FOTOS) == 13
+    assert "hero" in ALT_FOTOS
+
+
+def test_foto_servico_mapeia_para_nomes_reais_dos_servicos():
+    nomes = {it["nome"] for cat in SERVICOS for it in cat["itens"]}
+    assert set(FOTO_SERVICO) <= nomes
+    assert set(FOTO_SERVICO.values()) <= set(ALT_FOTOS)
+    assert FOTO_SERVICO["Volume Brasileiro ou Egípcio"] == "cilios-classico"
+    assert FOTO_SERVICO["Reconstrução de sobrancelhas"] == "sobrancelha-reconstrucao"
+
+
+def test_primeiro_olhar_tem_argumento_de_economia_sem_preco():
+    assert "argumento" in PRIMEIRO_OLHAR
+    assert "R$" not in PRIMEIRO_OLHAR["argumento"]
+    assert "separadas" in PRIMEIRO_OLHAR["argumento"]
 
 
 def test_volume_brasileiro_ou_egipcio_cita_o_efeito_u():

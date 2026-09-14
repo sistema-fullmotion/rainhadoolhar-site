@@ -29,41 +29,64 @@ p{margin:0 0 14px;max-width:62ch}
 .hero p{margin-left:auto;margin-right:auto}
 .hero-logo{margin:0 auto 22px;width:min(260px,70vw)}
 .selo{margin-top:16px;font-size:14px;color:var(--suave)}
+.hero-foto{margin:26px 0 0}
+.hero-foto img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
 .btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:600;letter-spacing:.04em;text-decoration:none;transition:transform .15s ease}
 .btn-primario{background:var(--dourado-texto);color:#fff}
 .btn-secundario{color:var(--dourado-texto);border:1px solid var(--dourado-texto);padding:10px 20px;font-size:15px}
+.btn-texto{display:inline;padding:0;border-radius:0;font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:2px}
 .btn:hover{transform:translateY(-1px)}
-.galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.galeria figure{margin:0;aspect-ratio:4/5;overflow:hidden;background:var(--creme-2)}
-.galeria img{width:100%;height:100%;object-fit:cover}
-.categorias{display:grid;gap:30px}
+.categorias{display:grid;gap:34px}
+.categoria h3{margin-bottom:14px}
 .lista-servicos{list-style:none;margin:0;padding:0}
 .lista-servicos li{padding:12px 0;border-bottom:1px solid var(--linha)}
 .servico{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
 .servico .nome{font-family:var(--serif);font-size:20px}
 .detalhe{font-size:14.5px;color:var(--suave);margin:4px 0 0}
+.cartoes-servicos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px}
+@media (max-width:719px){
+  .cartoes-servicos > .cartao-servico:last-child:nth-child(odd){grid-column:1 / -1}
+  .cartoes-servicos > .cartao-servico:last-child:nth-child(odd) .foto-servico{aspect-ratio:16/9}
+}
+.cartao-servico{background:var(--branco);border:1px solid var(--linha);padding:10px;display:flex;flex-direction:column}
+.foto-servico{aspect-ratio:4/5;overflow:hidden;border-radius:16px;background:var(--creme-2)}
+.foto-servico img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.cartao-servico .corpo-cartao{padding:12px 4px 4px;display:flex;flex-direction:column;flex:1}
+.cartao-servico h4{font-family:var(--serif);font-weight:500;font-size:18px;margin:0 0 6px;line-height:1.2}
+.cartao-servico .detalhe{flex:1;margin-bottom:12px}
+.cartao-servico .btn{align-self:flex-start}
+.mais-instagram{margin-top:14px}
 .destaque{background:var(--branco);border:1px solid var(--linha);padding:40px 24px;margin:40px 0;text-align:center}
 .destaque p{margin-left:auto;margin-right:auto}
 .subtitulo{margin-top:26px}
-.antes-depois{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.bloco-antes-depois{margin:30px 0 6px}
+.antes-depois{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
 .antes-depois figure{margin:0}
-.antes-depois img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+.antes-depois img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
 .antes-depois figcaption{text-align:center;font-size:13px;color:var(--suave);margin-top:6px}
 .cartoes{display:grid;gap:16px}
-.cartao{background:var(--branco);border:1px solid var(--linha);padding:22px}
+.cartao{background:var(--branco);border:1px solid var(--linha);padding:22px;display:flex;flex-direction:column}
+.cartao p{flex:1}
+.cartao .btn{align-self:flex-start}
 .aviso,.formato{font-size:14.5px;color:var(--suave)}
+.bloco-pacotes{margin-top:14px}
+.lista-pacotes{list-style:none;margin:0;padding:0}
+.lista-pacotes li{padding:14px 0;border-bottom:1px solid var(--linha);font-size:15px;color:var(--suave)}
+.lista-pacotes .nome-pacote{font-family:var(--serif);font-size:18px;color:var(--tinta)}
+.lista-pacotes .btn-texto{margin-left:6px}
 .regua{list-style:none;padding:0;margin:20px 0;display:grid;gap:12px}
 .regua li{background:var(--branco);border-left:3px solid var(--dourado);padding:14px 18px;display:grid;gap:2px}
 .dica{font-style:italic;color:var(--suave)}
 .duas-colunas{display:grid;gap:28px;align-items:center}
 .retrato{margin:0;max-width:320px}
+.retrato img{border-radius:16px}
 .avaliacoes{display:grid;gap:16px}
 .avaliacao{margin:16px 0 0;background:var(--branco);border:1px solid var(--linha);padding:22px}
 .avaliacao p{font-family:var(--serif);font-size:20px;font-style:italic;margin-bottom:10px}
 .avaliacao footer{font-size:14px;color:var(--suave)}
 address{font-style:normal;font-size:18px;margin-bottom:12px}
 .horario{list-style:none;padding:0;margin:0 0 14px;color:var(--suave)}
-.mapa{width:100%;height:280px;border:0;margin-top:10px}
+.mapa{width:100%;height:280px;border:0;margin-top:10px;border-radius:16px}
 .faq details{border-bottom:1px solid var(--linha);padding:14px 0}
 .faq summary{cursor:pointer;font-family:var(--serif);font-size:21px}
 .faq details p{margin-top:10px;color:var(--suave)}
@@ -73,8 +96,12 @@ address{font-style:normal;font-size:18px;margin-bottom:12px}
 .barra-agendar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(246,241,231,.96);border-top:1px solid var(--linha);text-align:center;z-index:10}
 .barra-agendar .btn{width:min(420px,100%)}
 @media (min-width:720px){
-  .galeria{grid-template-columns:repeat(4,1fr)}
-  .categorias,.cartoes{grid-template-columns:repeat(3,1fr)}
+  .hero.tem-foto{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;text-align:left;padding-top:56px}
+  .hero.tem-foto p{margin-left:0;margin-right:0}
+  .hero.tem-foto .hero-logo{margin:0 0 22px}
+  .hero.tem-foto .hero-foto{margin-top:0}
+  .cartoes-servicos{grid-template-columns:repeat(3,1fr)}
+  .cartoes{grid-template-columns:repeat(3,1fr)}
   .avaliacoes{grid-template-columns:repeat(2,1fr)}
   .duas-colunas{grid-template-columns:1fr 1fr}
   .barra-agendar{display:none}

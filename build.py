@@ -38,7 +38,10 @@ def build(saida: Path, pasta_fotos: Path, exigir_fotos: bool = True) -> None:
     fotos = {}
     if not ausentes:
         fotos = otimizar(pasta_fotos, saida / "img")
-        gerar_og(_achar(pasta_fotos, "studio"), saida / "img" / "og.jpg")
+        foto_capa = (_achar(pasta_fotos, "studio") or _achar(pasta_fotos, "hero")
+                    or _achar(pasta_fotos, "laryssa"))
+        if foto_capa:
+            gerar_og(foto_capa, saida / "img" / "og.jpg")
 
     paginas = {
         saida / "index.html": render_studio(fotos, css_versao=css_versao, gtm_id=GTM_ID),
