@@ -45,6 +45,10 @@ p{margin:0 0 14px;max-width:62ch}
 .destaque{background:var(--branco);border:1px solid var(--linha);padding:40px 24px;margin:40px 0;text-align:center}
 .destaque p{margin-left:auto;margin-right:auto}
 .subtitulo{margin-top:26px}
+.antes-depois{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.antes-depois figure{margin:0}
+.antes-depois img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+.antes-depois figcaption{text-align:center;font-size:13px;color:var(--suave);margin-top:6px}
 .cartoes{display:grid;gap:16px}
 .cartao{background:var(--branco);border:1px solid var(--linha);padding:22px}
 .aviso,.formato{font-size:14.5px;color:var(--suave)}

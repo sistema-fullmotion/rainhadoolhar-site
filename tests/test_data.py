@@ -49,4 +49,10 @@ def test_cinco_cursos_com_os_precos_da_academy():
 
 def test_avaliacoes_e_fotos_prontas():
     assert len(AVALIACOES_STUDIO) == 4
-    assert len(ALT_FOTOS) == 10
+    assert len(ALT_FOTOS) == 12
+
+
+def test_volume_brasileiro_ou_egipcio_cita_o_efeito_u():
+    texto = next(it["texto"] for cat in SERVICOS for it in cat["itens"]
+                 if it["nome"] == "Volume Brasileiro ou Egípcio")
+    assert "efeito U" in texto

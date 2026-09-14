@@ -28,7 +28,8 @@ def _inicio():
 def _resultados(fotos):
     if not fotos:
         return ""
-    itens = "".join(f"<figure>{imagem(nome, fotos[nome], ALT_FOTOS[nome])}</figure>" for nome in GALERIA)
+    itens = "".join(f"<figure>{imagem(nome, fotos[nome], ALT_FOTOS[nome])}</figure>"
+                    for nome in GALERIA if nome in fotos)
     return f'''<section id="resultados">
   <h2>Resultados</h2>
   <p class="secao-intro">Atendimentos feitos no studio.</p>
@@ -37,7 +38,21 @@ def _resultados(fotos):
 </section>'''
 
 
-def _servicos():
+def _antes_depois_micropigmentacao(fotos):
+    if not fotos or "micropigmentacao-antes" not in fotos or "micropigmentacao-depois" not in fotos:
+        return ""
+    antes = imagem("micropigmentacao-antes", fotos["micropigmentacao-antes"],
+                   ALT_FOTOS["micropigmentacao-antes"], sizes="(min-width: 720px) 25vw, 50vw")
+    depois = imagem("micropigmentacao-depois", fotos["micropigmentacao-depois"],
+                    ALT_FOTOS["micropigmentacao-depois"], sizes="(min-width: 720px) 25vw, 50vw")
+    return f'''<h3 class="subtitulo">Antes e depois da micropigmentação</h3>
+  <div class="antes-depois">
+    <figure>{antes}<figcaption>Antes</figcaption></figure>
+    <figure>{depois}<figcaption>Depois</figcaption></figure>
+  </div>'''
+
+
+def _servicos(fotos):
     blocos = []
     for cat in SERVICOS:
         linhas = "".join(
@@ -50,6 +65,7 @@ def _servicos():
   {ornamento()}
   <h2>Serviços</h2>
   <div class="categorias">{"".join(blocos)}</div>
+  {_antes_depois_micropigmentacao(fotos)}
   <div class="centro">{cta(MAAPP, "Agendar horário", "servicos")}</div>
 </section>'''
 
@@ -164,7 +180,7 @@ def _rodape():
 
 def render_studio(fotos, css_versao, gtm_id=None):
     head = render_head(TITULO, DESCRICAO, "/", [jsonld_script(beauty_salon())], css_versao, gtm_id)
-    secoes = [_inicio(), _resultados(fotos), _servicos(), _primeiro_olhar(), _combos_pacotes(),
+    secoes = [_inicio(), _resultados(fotos), _servicos(fotos), _primeiro_olhar(), _combos_pacotes(),
               _manutencao(), _quem_faz(fotos), _avaliacoes(), _como_chegar(fotos), _perguntas()]
     corpo = "\n".join(s for s in secoes if s)
     return head + "<main>\n" + corpo + "\n</main>\n" + _rodape() + "\n</body>\n</html>\n"

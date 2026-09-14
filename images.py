@@ -3,8 +3,11 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 FOTOS_OBRIGATORIAS = ["cilios-classico", "cilios-mega", "cilios-efeito", "sobrancelha-design",
-                      "sobrancelha-henna", "sobrancelha-lamination", "sobrancelha-reconstrucao",
+                      "sobrancelha-henna", "sobrancelha-lamination",
                       "labios-hidragloss", "studio", "laryssa"]
+# Fotos que aparecem quando existem em fotos/, mas não travam o build se ainda não chegaram.
+FOTOS_OPCIONAIS = ["sobrancelha-reconstrucao", "micropigmentacao-antes", "micropigmentacao-depois"]
+TODAS_FOTOS = FOTOS_OBRIGATORIAS + FOTOS_OPCIONAIS
 LARGURAS = (480, 960)
 EXTENSOES = (".jpg", ".jpeg", ".png", ".webp")
 
@@ -28,7 +31,7 @@ def _abrir(arquivo: Path):
 def otimizar(origem: Path, destino: Path) -> dict:
     destino.mkdir(parents=True, exist_ok=True)
     info = {}
-    for nome in FOTOS_OBRIGATORIAS:
+    for nome in TODAS_FOTOS:
         arquivo = _achar(origem, nome)
         if arquivo is None:
             continue

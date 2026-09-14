@@ -37,7 +37,7 @@ HORARIO_FECHADO = "Domingo fechado"
 SERVICOS = [
     {"categoria": "Cílios", "itens": [
         {"nome": "Volume Brasileiro ou Egípcio", "preco": 180, "duracao": "1h30",
-         "texto": "O volume mais natural, ideal para a primeira vez."},
+         "texto": "O volume mais natural, ideal para a primeira vez. Também no efeito U."},
         {"nome": "Mega Volumes", "preco": 180, "duracao": "2h",
          "texto": "Mais fios e mais preenchimento, alongado ou curtinho."},
         {"nome": "Efeitos (Sirena, Fox, Molhado, Kardashian)", "preco": 200, "duracao": "2h",
@@ -198,6 +198,8 @@ ALT_FOTOS = {
     "labios-hidragloss": "Lábios depois do hidragloss",
     "studio": "Espaço do studio Rainha do Olhar no Rio Comprido",
     "laryssa": "Laryssa, do Rainha do Olhar",
+    "micropigmentacao-antes": "Sobrancelha antes da micropigmentação",
+    "micropigmentacao-depois": "Sobrancelha depois da micropigmentação, no Rainha do Olhar",
 }
 
 

@@ -55,3 +55,40 @@ def test_barra_fixa_e_ficha_do_negocio():
     h = pagina()
     assert 'class="barra-agendar"' in h
     assert '"@type": "BeautySalon"' in h
+
+
+def test_galeria_nao_quebra_sem_a_foto_de_reconstrucao():
+    fotos = {n: v for n, v in FOTOS.items() if n != "sobrancelha-reconstrucao"}
+    h = render_studio(fotos, css_versao="teste")
+    assert "sobrancelha-reconstrucao" not in h
+    assert 'id="resultados"' in h
+
+
+def test_galeria_completa_com_a_foto_de_reconstrucao():
+    h = pagina()
+    assert "sobrancelha-reconstrucao-960.webp" in h
+
+
+def test_antes_depois_micropigmentacao_aparece_com_as_duas_fotos():
+    h = pagina()
+    assert "micropigmentacao-antes-960.webp" in h
+    assert "micropigmentacao-depois-960.webp" in h
+    assert ALT_FOTOS["micropigmentacao-antes"] in h
+    assert ALT_FOTOS["micropigmentacao-depois"] in h
+    assert h.count(">Antes<") == 1
+    assert h.count(">Depois<") == 1
+
+
+def test_antes_depois_micropigmentacao_some_sem_as_duas_fotos():
+    fotos = {n: v for n, v in FOTOS.items() if n not in ("micropigmentacao-antes", "micropigmentacao-depois")}
+    h = render_studio(fotos, css_versao="teste")
+    assert "micropigmentacao-antes" not in h
+    assert "micropigmentacao-depois" not in h
+    assert ">Antes<" not in h and ">Depois<" not in h
+
+
+def test_antes_depois_some_se_so_uma_das_duas_existir():
+    fotos = {n: v for n, v in FOTOS.items() if n != "micropigmentacao-depois"}
+    h = render_studio(fotos, css_versao="teste")
+    assert "micropigmentacao-antes" not in h
+    assert "micropigmentacao-depois" not in h

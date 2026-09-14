@@ -22,6 +22,18 @@ def test_build_completo_gera_paginas_e_assets(tmp_path):
     assert "?v=" in (saida / "index.html").read_text(encoding="utf-8")
 
 
+def test_build_funciona_sem_a_foto_de_reconstrucao(tmp_path):
+    pasta = tmp_path / "fotos"
+    _fotos(pasta)
+    assert not (pasta / "sobrancelha-reconstrucao.jpg").exists()
+    saida = tmp_path / "dist"
+    build(saida, pasta, exigir_fotos=True)
+    pagina = (saida / "index.html").read_text(encoding="utf-8")
+    assert "sobrancelha-reconstrucao" not in pagina
+    assert not (saida / "img" / "sobrancelha-reconstrucao-960.webp").exists()
+    assert (saida / "img" / "studio-960.webp").exists()
+
+
 def test_build_sem_foto_obrigatoria_falha_listando(tmp_path):
     (tmp_path / "fotos").mkdir()
     with pytest.raises(SystemExit) as erro:
