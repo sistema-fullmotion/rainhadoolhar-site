@@ -1,0 +1,4 @@
+fotos/
+__pycache__/
+.pytest_cache/
+maapp_services.json
