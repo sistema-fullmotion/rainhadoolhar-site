@@ -118,7 +118,7 @@ def _quem_faz(fotos):
 
 def _avaliacoes():
     itens = "".join(
-        f'<blockquote class="avaliacao"><p>"{esc(a["texto"])}"</p>'
+        f'<blockquote class="avaliacao"><p>“{esc(a["texto"])}”</p>'
         f'<footer>{esc(a["nome"])} · avaliação no Google</footer></blockquote>'
         for a in AVALIACOES_STUDIO)
     return f'''<section id="avaliacoes">
