@@ -78,3 +78,11 @@ def test_otimizar_ignora_foto_opcional_ausente(tmp_path):
     info = otimizar(origem, destino)
     assert "sobrancelha-reconstrucao" not in info
     assert not (destino / "sobrancelha-reconstrucao-960.webp").exists()
+
+
+from data import FOTOS_PROVADOR
+
+
+def test_fotos_do_provador_sao_opcionais():
+    assert set(FOTOS_PROVADOR) <= set(FOTOS_OPCIONAIS)
+    assert not set(FOTOS_PROVADOR) & set(FOTOS_OBRIGATORIAS)

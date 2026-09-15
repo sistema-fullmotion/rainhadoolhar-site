@@ -1,5 +1,6 @@
 from data import (NEGOCIO, SERVICOS, PRIMEIRO_OLHAR, COMBOS, PACOTES, CURSOS, FAQ,
-                  AVALIACOES_STUDIO, ALT_FOTOS, FOTO_SERVICO, preco)
+                  AVALIACOES_STUDIO, ALT_FOTOS, FOTO_SERVICO, preco, PROVADOR, FOTOS_PROVADOR,
+                  PROVADOR_MENSAGEM_PADRAO)
 
 
 def test_nap_igual_ao_google():
@@ -49,7 +50,7 @@ def test_cinco_cursos_com_os_precos_da_academy():
 
 def test_avaliacoes_e_fotos_prontas():
     assert len(AVALIACOES_STUDIO) == 4
-    assert len(ALT_FOTOS) == 13
+    assert len(ALT_FOTOS) == 21
     assert "hero" in ALT_FOTOS
 
 
@@ -71,3 +72,39 @@ def test_volume_brasileiro_ou_egipcio_cita_o_efeito_u():
     texto = next(it["texto"] for cat in SERVICOS for it in cat["itens"]
                  if it["nome"] == "Volume Brasileiro ou Egípcio")
     assert "efeito U" in texto
+
+
+def test_provador_tem_tres_grupos_na_ordem():
+    assert [g["grupo"] for g in PROVADOR] == ["cilios", "sobrancelha", "labios"]
+    assert [g["rotulo"] for g in PROVADOR] == ["Cílios", "Sobrancelha", "Lábios"]
+
+
+def test_provador_opcoes_e_escolha_inicial():
+    opcoes = {g["grupo"]: [o["id"] for o in g["opcoes"]] for g in PROVADOR}
+    assert opcoes == {"cilios": ["natural", "marcante", "dramatico"],
+                      "sobrancelha": ["design", "henna", "lamination"],
+                      "labios": ["natural", "hidratado", "micropigmentado"]}
+    assert {g["grupo"]: g["inicial"] for g in PROVADOR} == {
+        "cilios": "marcante", "sobrancelha": "lamination", "labios": "natural"}
+
+
+def test_so_micropigmentado_exige_foto():
+    exigem = [o["id"] for g in PROVADOR for o in g["opcoes"] if o.get("exige_foto")]
+    assert exigem == ["micropigmentado"]
+
+
+def test_fotos_do_provador_tem_texto_alternativo():
+    assert FOTOS_PROVADOR == ["provador-cilios-natural", "provador-cilios-marcante", "provador-cilios-dramatico",
+                              "provador-sobrancelha-design", "provador-sobrancelha-henna",
+                              "provador-sobrancelha-lamination", "provador-labios-hidratado",
+                              "provador-labios-micropigmentado"]
+    for nome in FOTOS_PROVADOR:
+        assert ALT_FOTOS[nome]
+
+
+def test_mensagens_do_provador():
+    mensagens = {(g["grupo"], o["id"]): o["mensagem"] for g in PROVADOR for o in g["opcoes"]}
+    assert mensagens[("cilios", "marcante")] == "cílios marcante (efeito)"
+    assert mensagens[("sobrancelha", "lamination")] == "sobrancelha com brow lamination"
+    assert mensagens[("labios", "natural")] == ""
+    assert PROVADOR_MENSAGEM_PADRAO == "Oi, Laryssa! Vim pelo site e quero agendar."

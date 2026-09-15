@@ -2,14 +2,16 @@
 from pathlib import Path
 from PIL import Image, ImageOps
 
+from data import FOTOS_PROVADOR
+
 FOTOS_OBRIGATORIAS = ["cilios-classico", "cilios-mega", "cilios-efeito", "sobrancelha-design",
                       "sobrancelha-henna", "sobrancelha-lamination",
                       "labios-hidragloss", "laryssa"]
 # Fotos que aparecem quando existem em fotos/, mas não travam o build se ainda não chegaram.
-# "studio" fica opcional porque a foto do espaço não é mais exibida na página (só serve de
-# reserva para a imagem de og.jpg quando presente).
+# "studio" e "hero" ficam opcionais porque não são mais exibidas na página (servem de reserva
+# para og.jpg). As fotos do provador também são opcionais.
 FOTOS_OPCIONAIS = ["sobrancelha-reconstrucao", "micropigmentacao-antes", "micropigmentacao-depois",
-                   "studio", "hero"]
+                   "studio", "hero"] + FOTOS_PROVADOR
 TODAS_FOTOS = FOTOS_OBRIGATORIAS + FOTOS_OPCIONAIS
 LARGURAS = (480, 960)
 EXTENSOES = (".jpg", ".jpeg", ".png", ".webp")
