@@ -19,12 +19,19 @@ def cta(href, texto, rastreio, variante="primario"):
             f'data-cta="{esc(rastreio)}">{esc(texto)}</a>')
 
 
-def imagem(nome, info, alt, sizes="(min-width: 720px) 25vw, 50vw", carregar="lazy", prioridade=False):
-    srcset = ", ".join(f"/img/{nome}-{largura}.webp {largura}w" for largura in info["larguras"])
-    maior = info["larguras"][-1]
-    extra = ' fetchpriority="high"' if prioridade else ""
-    return (f'<img src="/img/{nome}-{maior}.webp" srcset="{srcset}" sizes="{esc(sizes)}" '
-            f'width="{info["w"]}" height="{info["h"]}" alt="{esc(alt)}" loading="{carregar}" decoding="async"{extra}>')
+def caminhos_imagem(nome, info):
+    """src (maior largura), srcset e a maior largura de uma foto otimizada."""
+    larguras = info["larguras"]
+    srcset = ", ".join(f"/img/{nome}-{largura}.webp {largura}w" for largura in larguras)
+    return f"/img/{nome}-{larguras[-1]}.webp", srcset, larguras[-1]
+
+
+def imagem(nome, info, alt, sizes="(min-width: 720px) 25vw, 50vw", carregar="lazy", prioridade=False, extra=""):
+    src, srcset, _ = caminhos_imagem(nome, info)
+    prio = ' fetchpriority="high"' if prioridade else ""
+    adicional = f" {extra}" if extra else ""
+    return (f'<img src="{src}" srcset="{srcset}" sizes="{esc(sizes)}" '
+            f'width="{info["w"]}" height="{info["h"]}" alt="{esc(alt)}" loading="{carregar}" decoding="async"{prio}{adicional}>')
 
 
 def ornamento():

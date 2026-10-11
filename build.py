@@ -10,6 +10,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import data
 from components import verificar_texto
 from data import NEGOCIO
 from images import faltando, otimizar, gerar_og, _achar
@@ -25,10 +26,25 @@ def _texto_visivel(pagina):
     return html.unescape(re.sub(r"<[^>]+>", " ", sem_codigo))
 
 
+def _verificar_provador():
+    """O texto do provador viaja no JSON embutido, que o filtro de página ignora: confere aqui."""
+    textos = [("mensagem padrão", data.PROVADOR_MENSAGEM_PADRAO)]
+    for grupo in data.PROVADOR:
+        textos.append((f"{grupo['grupo']} (rotulo)", grupo["rotulo"]))
+        for opcao in grupo["opcoes"]:
+            textos += [(f"{grupo['grupo']}/{opcao['id']} ({campo})", opcao[campo])
+                       for campo in ("rotulo", "mensagem", "alt")]
+    for onde, texto in textos:
+        proibidos = verificar_texto(texto)
+        if proibidos:
+            raise SystemExit(f"texto proibido no provador, opção {onde}: {', '.join(proibidos)}")
+
+
 def build(saida: Path, pasta_fotos: Path, exigir_fotos: bool = True) -> None:
     ausentes = faltando(pasta_fotos)
     if exigir_fotos and ausentes:
         raise SystemExit(f"faltam fotos em {pasta_fotos}: {', '.join(ausentes)}")
+    _verificar_provador()
     if saida.exists():
         shutil.rmtree(saida)
     (saida / "academy").mkdir(parents=True)

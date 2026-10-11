@@ -2,7 +2,7 @@
 import json
 from urllib.parse import quote
 
-from components import esc, imagem
+from components import caminhos_imagem, esc, imagem
 from data import NEGOCIO, PROVADOR, PROVADOR_MENSAGEM_PADRAO
 
 
@@ -10,35 +10,49 @@ def link_whatsapp(numero_e164, texto):
     return f"https://wa.me/{numero_e164.lstrip('+')}?text={quote(texto)}"
 
 
+def _chaves_de_foto(opcao):
+    """Nomes de foto da opção, do mais específico (arquivo provador-*) ao compartilhado."""
+    return [c for c in (opcao.get("foto"), opcao.get("foto_padrao")) if c]
+
+
+def _foto_escolhida(opcao, fotos):
+    return next((c for c in _chaves_de_foto(opcao) if c in fotos), None)
+
+
 def opcoes_visiveis(grupo, fotos):
-    return [o for o in grupo["opcoes"] if not (o.get("exige_foto") and o["foto"] not in fotos)]
+    return [o for o in grupo["opcoes"] if not (o.get("exige_foto") and _foto_escolhida(o, fotos) is None)]
 
 
 def _foto(nome, fotos):
     if not nome or nome not in fotos:
         return None
     info = fotos[nome]
-    larguras = info["larguras"]
-    return {"nome": nome,
-            "src": f"/img/{nome}-{larguras[-1]}.webp",
-            "srcset": ", ".join(f"/img/{nome}-{largura}.webp {largura}w" for largura in larguras),
-            "mini": f"/img/{nome}-{larguras[0]}.webp",
+    src, srcset, _ = caminhos_imagem(nome, info)
+    return {"nome": nome, "src": src, "srcset": srcset,
+            "mini": f"/img/{nome}-{info['larguras'][0]}.webp",
             "w": info["w"], "h": info["h"]}
 
 
 def dados_provador(fotos, numero_e164):
     grupos = []
     for grupo in PROVADOR:
+        visiveis = opcoes_visiveis(grupo, fotos)
+        if not visiveis:
+            raise SystemExit(f"provador: o grupo '{grupo['grupo']}' ficou sem nenhuma opção visível")
         opcoes = [{"id": o["id"], "rotulo": o["rotulo"], "mensagem": o["mensagem"], "alt": o["alt"],
-                   "foto": _foto(o["foto"], fotos)}
-                  for o in opcoes_visiveis(grupo, fotos)]
+                   "foto": _foto(_foto_escolhida(o, fotos), fotos)}
+                  for o in visiveis]
+        inicial = grupo["inicial"] if any(o["id"] == grupo["inicial"] for o in opcoes) else opcoes[0]["id"]
         grupos.append({"grupo": grupo["grupo"], "rotulo": grupo["rotulo"],
-                       "inicial": grupo["inicial"], "opcoes": opcoes})
+                       "inicial": inicial, "opcoes": opcoes})
     return {"whatsapp": numero_e164.lstrip("+"), "grupos": grupos}
 
 
 def _inicial(grupo):
-    return next(o for o in grupo["opcoes"] if o["id"] == grupo["inicial"])
+    for o in grupo["opcoes"]:
+        if o["id"] == grupo["inicial"]:
+            return o
+    raise SystemExit(f"provador: a opção inicial '{grupo['inicial']}' do grupo '{grupo['grupo']}' não está visível")
 
 
 def _grupo_html(grupo):
@@ -69,7 +83,7 @@ def render_provador(fotos, numero_e164, agenda_url):
     if principal["foto"]:
         nome = principal["foto"]["nome"]
         foto_html = imagem(nome, fotos[nome], principal["alt"], sizes="(min-width: 720px) 45vw, 100vw",
-                           carregar="eager", prioridade=True).replace("<img ", "<img data-provador-foto ", 1)
+                           carregar="eager", prioridade=True, extra="data-provador-foto")
     classe_foto = "provador-foto" if foto_html else "provador-foto sem-foto"
     grupos = "".join(_grupo_html(g) for g in dados["grupos"])
     json_txt = json.dumps(dados, ensure_ascii=False).replace("</", "<\\/")

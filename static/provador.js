@@ -20,7 +20,12 @@
   var fonte = document.getElementById("provador-dados");
   if (!secao || !fonte) { return; }
 
-  var dados = JSON.parse(fonte.textContent);
+  var dados;
+  try {
+    dados = JSON.parse(fonte.textContent);
+  } catch (erro) {
+    return;
+  }
   var escolha = {};
   dados.grupos.forEach(function (g) { escolha[g.grupo] = g.inicial; });
 
@@ -30,6 +35,7 @@
   var miniaturas = secao.querySelector("[data-provador-miniaturas]");
   var zap = secao.querySelector("[data-provador-whatsapp]");
   var fotosCarregadas = false;
+  if (!resumo || !zap || !miniaturas) { return; }
 
   function opcao(grupo, id) {
     var g = dados.grupos.filter(function (x) { return x.grupo === grupo; })[0];
@@ -43,10 +49,12 @@
   function preCarregar() {
     if (fotosCarregadas) { return; }
     fotosCarregadas = true;
+    var exibida = foto ? foto.getAttribute("src") : null;
     dados.grupos.forEach(function (g) {
       g.opcoes.forEach(function (o) {
-        if (o.foto) {
+        if (o.foto && o.foto.src !== exibida) {
           var img = new Image();
+          img.fetchPriority = "low";
           img.srcset = o.foto.srcset;
           img.sizes = "(min-width: 720px) 45vw, 100vw";
           img.src = o.foto.src;

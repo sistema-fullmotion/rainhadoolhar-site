@@ -124,7 +124,7 @@ address{font-style:normal;font-size:18px;margin-bottom:12px}
 .provador-grupo{margin-top:12px}
 .provador-rotulo{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dourado-texto);font-weight:600;margin:0 0 6px}
 .provador-opcoes{display:flex;flex-wrap:wrap;gap:8px}
-.provador-opcao{font:600 15px var(--sans);min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--linha);background:var(--branco);color:var(--tinta);cursor:pointer}
+.provador-opcao{font:600 15px var(--sans);min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--dourado);background:var(--branco);color:var(--tinta);cursor:pointer}
 .provador-opcao[aria-pressed="true"]{background:var(--dourado-texto);border-color:var(--dourado-texto);color:#fff}
 .provador-opcao:focus-visible{outline:2px solid var(--dourado-texto);outline-offset:3px}
 .provador-escolhas{display:flex;align-items:center;gap:10px;margin-top:16px}
@@ -133,9 +133,14 @@ address{font-style:normal;font-size:18px;margin-bottom:12px}
 .provador-escolhas p{margin:0;font-size:13.5px;color:var(--suave)}
 .btn-whatsapp{display:block;text-align:center;margin-top:14px;background:#1E7E45;color:#fff}
 .provador-agenda{text-align:center;margin:10px 0 0;font-size:15px;max-width:none}
+.provador-agenda a{display:inline-block;padding:11px 4px}
 .provador .selo{text-align:center;max-width:none}
-.barra-agendar{transition:transform .25s ease}
-body.provador-visivel .barra-agendar{transform:translateY(120%)}
+.barra-agendar{transition:transform .25s ease, visibility 0s}
+body.provador-visivel .barra-agendar{transform:translateY(120%);visibility:hidden;transition:transform .25s ease, visibility 0s .25s}
+@media (max-width:719px){
+  .provador-foto{max-height:42vh}
+  .provador-foto img{height:100%}
+}
 @media (min-width:720px){
   .provador{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"texto foto" "controles foto";column-gap:48px;align-items:start;text-align:left;padding-top:48px}
   .provador-texto{grid-area:texto}

@@ -35,3 +35,17 @@ def test_imagem_com_prioridade_carrega_eager_e_fetchpriority_alto():
 
 def test_ornamento_e_decorativo():
     assert 'alt=""' in ornamento() and "/static/ornamento.svg" in ornamento()
+
+
+def test_imagem_extra_acrescenta_atributos_no_fim():
+    info = {"larguras": [480, 960], "w": 960, "h": 1200}
+    base = imagem("hero", info, "Cliente", carregar="eager", prioridade=True)
+    com = imagem("hero", info, "Cliente", carregar="eager", prioridade=True, extra="data-x")
+    assert com == base[:-1] + " data-x>"
+    assert imagem("hero", info, "Cliente") == imagem("hero", info, "Cliente", extra="")
+
+
+def test_caminhos_imagem_devolve_src_srcset_e_maior_largura():
+    from components import caminhos_imagem
+    assert caminhos_imagem("studio", {"larguras": [480, 960], "w": 960, "h": 1200}) == (
+        "/img/studio-960.webp", "/img/studio-480.webp 480w, /img/studio-960.webp 960w", 960)

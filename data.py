@@ -218,33 +218,35 @@ ALT_FOTOS = {
 }
 
 # Provador de olhar do topo (spec docs/superpowers/specs/2026-09-14-provador-de-olhar-design.md).
-# "exige_foto": a opção só aparece no site quando a foto existe em fotos/.
+# "foto": arquivo próprio da opção (fotos/provador-<grupo>-<opção>), que vence quando existe.
+# "foto_padrao": foto do site já publicada, usada enquanto não houver arquivo próprio (evita WebP duplicado).
+# "exige_foto": a opção só aparece no site quando uma das duas fotos existe em fotos/.
 PROVADOR = [
     {"grupo": "cilios", "rotulo": "Cílios", "inicial": "marcante", "opcoes": [
         {"id": "natural", "rotulo": "Natural", "foto": "provador-cilios-natural",
          "mensagem": "cílios natural (volume brasileiro)",
          "alt": "Cliente com extensão de cílios volume brasileiro feita no Rainha do Olhar"},
-        {"id": "marcante", "rotulo": "Marcante", "foto": "provador-cilios-marcante",
+        {"id": "marcante", "rotulo": "Marcante", "foto": "provador-cilios-marcante", "foto_padrao": "cilios-efeito",
          "mensagem": "cílios marcante (efeito)",
          "alt": "Cliente com extensão de cílios com efeito molhado feita no Rainha do Olhar"},
-        {"id": "dramatico", "rotulo": "Dramático", "foto": "provador-cilios-dramatico",
+        {"id": "dramatico", "rotulo": "Dramático", "foto": "provador-cilios-dramatico", "foto_padrao": "cilios-mega",
          "mensagem": "cílios dramático (mega volume)",
          "alt": "Cliente com extensão de cílios mega volume feita no Rainha do Olhar"},
     ]},
     {"grupo": "sobrancelha", "rotulo": "Sobrancelha", "inicial": "lamination", "opcoes": [
-        {"id": "design", "rotulo": "Design", "foto": "provador-sobrancelha-design",
+        {"id": "design", "rotulo": "Design", "foto": "provador-sobrancelha-design", "foto_padrao": "sobrancelha-design",
          "mensagem": "sobrancelha com design",
          "alt": "Sobrancelha durante o mapeamento do design personalizado"},
-        {"id": "henna", "rotulo": "Henna", "foto": "provador-sobrancelha-henna",
+        {"id": "henna", "rotulo": "Henna", "foto": "provador-sobrancelha-henna", "foto_padrao": "sobrancelha-henna",
          "mensagem": "sobrancelha com henna",
          "alt": "Cliente com design de sobrancelha com henna feito no Rainha do Olhar"},
-        {"id": "lamination", "rotulo": "Lamination", "foto": "provador-sobrancelha-lamination",
+        {"id": "lamination", "rotulo": "Lamination", "foto": "provador-sobrancelha-lamination", "foto_padrao": "sobrancelha-lamination",
          "mensagem": "sobrancelha com brow lamination",
          "alt": "Cliente com brow lamination feita no Rainha do Olhar"},
     ]},
     {"grupo": "labios", "rotulo": "Lábios", "inicial": "natural", "opcoes": [
         {"id": "natural", "rotulo": "Natural", "foto": None, "mensagem": "", "alt": ""},
-        {"id": "hidratado", "rotulo": "Hidratado", "foto": "provador-labios-hidratado",
+        {"id": "hidratado", "rotulo": "Hidratado", "foto": "provador-labios-hidratado", "foto_padrao": "labios-hidragloss",
          "mensagem": "lábios hidratados (hidragloss)",
          "alt": "Cliente com lábios hidratados depois do hidragloss"},
         {"id": "micropigmentado", "rotulo": "Micropigmentado", "foto": "provador-labios-micropigmentado",

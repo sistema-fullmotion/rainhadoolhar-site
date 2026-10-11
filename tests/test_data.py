@@ -108,3 +108,19 @@ def test_mensagens_do_provador():
     assert mensagens[("sobrancelha", "lamination")] == "sobrancelha com brow lamination"
     assert mensagens[("labios", "natural")] == ""
     assert PROVADOR_MENSAGEM_PADRAO == "Oi, Laryssa! Vim pelo site e quero agendar."
+
+
+def test_fotos_padrao_do_provador_apontam_para_fotos_do_site():
+    padrao = {(g["grupo"], o["id"]): o.get("foto_padrao") for g in PROVADOR for o in g["opcoes"]}
+    assert padrao == {
+        ("cilios", "natural"): None,
+        ("cilios", "marcante"): "cilios-efeito",
+        ("cilios", "dramatico"): "cilios-mega",
+        ("sobrancelha", "design"): "sobrancelha-design",
+        ("sobrancelha", "henna"): "sobrancelha-henna",
+        ("sobrancelha", "lamination"): "sobrancelha-lamination",
+        ("labios", "natural"): None,
+        ("labios", "hidratado"): "labios-hidragloss",
+        ("labios", "micropigmentado"): None}
+    for nome in padrao.values():
+        assert nome is None or nome in FOTO_SERVICO.values()

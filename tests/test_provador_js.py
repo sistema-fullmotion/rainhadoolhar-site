@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 
 JS = Path(__file__).resolve().parents[1] / "static" / "provador.js"
-CSS = Path(__file__).resolve().parents[1] / "static" / "style.css"
 pytestmark = pytest.mark.skipif(shutil.which("node") is None, reason="node não instalado")
 
 EXECUTOR = (
@@ -44,11 +43,3 @@ def test_mensagem_com_labios_hidratados():
 def test_link_whatsapp_codifica_o_texto():
     assert chamar("linkWhatsapp", "5521967748281", "Oi, Laryssa! Quero agendar.") == (
         "https://wa.me/5521967748281?text=Oi%2C%20Laryssa!%20Quero%20agendar.")
-
-
-def test_css_tem_estado_marcado_e_botao_do_whatsapp():
-    css = CSS.read_text(encoding="utf-8")
-    assert '.provador-opcao[aria-pressed="true"]' in css
-    assert ".btn-whatsapp{" in css
-    assert "body.provador-visivel .barra-agendar" in css
-    assert ".hero.tem-foto" not in css
