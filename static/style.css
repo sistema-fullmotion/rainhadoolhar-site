@@ -25,12 +25,8 @@ p{margin:0 0 14px;max-width:62ch}
 .secao-intro{color:var(--suave)}
 .centro{text-align:center;margin-top:26px}
 .ornamento{margin:0 auto 18px;width:190px}
-.hero{text-align:center;padding-top:40px}
-.hero p{margin-left:auto;margin-right:auto}
 .hero-logo{margin:0 auto 22px;width:min(260px,70vw)}
 .selo{margin-top:16px;font-size:14px;color:var(--suave)}
-.hero-foto{margin:26px 0 0}
-.hero-foto img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
 .btn{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:600;letter-spacing:.04em;text-decoration:none;transition:transform .15s ease}
 .btn-primario{background:var(--dourado-texto);color:#fff}
 .btn-secundario{color:var(--dourado-texto);border:1px solid var(--dourado-texto);padding:10px 20px;font-size:15px}
@@ -96,10 +92,6 @@ address{font-style:normal;font-size:18px;margin-bottom:12px}
 .barra-agendar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(246,241,231,.96);border-top:1px solid var(--linha);text-align:center;z-index:10}
 .barra-agendar .btn{width:min(420px,100%)}
 @media (min-width:720px){
-  .hero.tem-foto{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;text-align:left;padding-top:56px}
-  .hero.tem-foto p{margin-left:0;margin-right:0}
-  .hero.tem-foto .hero-logo{margin:0 0 22px}
-  .hero.tem-foto .hero-foto{margin-top:0}
   .cartoes-servicos{grid-template-columns:repeat(3,1fr)}
   .cartoes{grid-template-columns:repeat(3,1fr)}
   .avaliacoes{grid-template-columns:repeat(2,1fr)}
@@ -111,4 +103,43 @@ address{font-style:normal;font-size:18px;margin-bottom:12px}
   html{scroll-behavior:auto}
   .btn{transition:none}
   .btn:hover{transform:none}
+}
+
+/* Provador de olhar (topo do studio) */
+.provador{padding-top:28px;text-align:center}
+.provador .hero-logo{margin:0 auto 14px;width:min(220px,60vw)}
+.provador h1{margin-bottom:18px}
+.provador-foto{position:relative;margin:0 auto;max-width:520px;aspect-ratio:4/5;border-radius:22px;overflow:hidden;background:var(--creme-2)}
+.provador-foto img{width:100%;height:100%;object-fit:cover;object-position:center 35%;transition:opacity .3s ease}
+.provador-foto img.trocando{opacity:0}
+.provador-foto.sem-foto{aspect-ratio:auto;background:transparent;overflow:visible}
+.provador-selo{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(253,251,246,.94);border-radius:14px;padding:8px 14px;text-align:left}
+.provador-foto.sem-foto .provador-selo{position:static}
+.provador-selo small{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dourado-texto);font-weight:600}
+.provador-selo b{font-family:var(--serif);font-weight:500;font-size:19px}
+.provador-controles{max-width:520px;margin:18px auto 0;text-align:left}
+.provador-grupo{margin-top:12px}
+.provador-rotulo{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dourado-texto);font-weight:600;margin:0 0 6px}
+.provador-opcoes{display:flex;flex-wrap:wrap;gap:8px}
+.provador-opcao{font:600 15px var(--sans);min-height:44px;padding:10px 16px;border-radius:999px;border:1px solid var(--linha);background:var(--branco);color:var(--tinta);cursor:pointer}
+.provador-opcao[aria-pressed="true"]{background:var(--dourado-texto);border-color:var(--dourado-texto);color:#fff}
+.provador-opcao:focus-visible{outline:2px solid var(--dourado-texto);outline-offset:3px}
+.provador-escolhas{display:flex;align-items:center;gap:10px;margin-top:16px}
+.provador-miniaturas{display:flex;gap:6px}
+.provador-miniaturas img{width:44px;height:44px;object-fit:cover;object-position:center 35%;border-radius:10px}
+.provador-escolhas p{margin:0;font-size:13.5px;color:var(--suave)}
+.btn-whatsapp{display:block;text-align:center;margin-top:14px;background:#1E7E45;color:#fff}
+.provador-agenda{text-align:center;margin:10px 0 0;font-size:15px;max-width:none}
+.provador .selo{text-align:center;max-width:none}
+.barra-agendar{transition:transform .25s ease}
+body.provador-visivel .barra-agendar{transform:translateY(120%)}
+@media (min-width:720px){
+  .provador{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"texto foto" "controles foto";column-gap:48px;align-items:start;text-align:left;padding-top:48px}
+  .provador-texto{grid-area:texto}
+  .provador .hero-logo{margin:0 0 14px}
+  .provador-foto{grid-area:foto;margin:0;max-width:none}
+  .provador-controles{grid-area:controles;margin:8px 0 0;max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .provador-foto img,.barra-agendar{transition:none}
 }
