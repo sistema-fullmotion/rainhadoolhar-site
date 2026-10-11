@@ -45,7 +45,12 @@
     fotosCarregadas = true;
     dados.grupos.forEach(function (g) {
       g.opcoes.forEach(function (o) {
-        if (o.foto) { var img = new Image(); img.src = o.foto.src; }
+        if (o.foto) {
+          var img = new Image();
+          img.srcset = o.foto.srcset;
+          img.sizes = "(min-width: 720px) 45vw, 100vw";
+          img.src = o.foto.src;
+        }
       });
     });
   }
@@ -56,6 +61,7 @@
       foto = document.createElement("img");
       foto.setAttribute("data-provador-foto", "");
       foto.decoding = "async";
+      foto.sizes = "(min-width: 720px) 45vw, 100vw";
       figura.insertBefore(foto, figura.firstChild);
       figura.classList.remove("sem-foto");
     }
@@ -91,6 +97,7 @@
     if (!botao) { return; }
     preCarregar();
     var grupo = botao.getAttribute("data-grupo");
+    if (escolha[grupo] === botao.getAttribute("data-opcao")) { return; }
     escolha[grupo] = botao.getAttribute("data-opcao");
     secao.querySelectorAll('.provador-opcao[data-grupo="' + grupo + '"]').forEach(function (b) {
       b.setAttribute("aria-pressed", b === botao ? "true" : "false");

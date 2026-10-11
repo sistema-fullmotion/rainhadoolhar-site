@@ -1,5 +1,6 @@
 import json
 import re
+from pathlib import Path
 import build as modulo
 from page_academy import render_academy
 from data import NEGOCIO
@@ -39,3 +40,10 @@ def test_kit_nao_incluso_e_pagamento_a_combinar():
     h = pagina()
     assert "O kit profissional não está incluso" in h
     assert "Formas de pagamento e parcelamento a combinar" in h
+
+
+def test_academy_continua_usando_a_classe_hero_que_existe_no_css():
+    css = (Path(__file__).resolve().parents[1] / "static" / "style.css").read_text(encoding="utf-8")
+    assert 'class="hero"' in render_academy(css_versao="teste")
+    assert ".hero{" in css
+    assert ".hero p{" in css
