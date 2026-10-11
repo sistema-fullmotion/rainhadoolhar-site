@@ -51,3 +51,23 @@ def test_script_protege_os_ganchos_e_o_json():
 def test_precarrega_com_prioridade_baixa_e_pula_a_foto_exibida():
     assert 'img.fetchPriority = "low"' in JS
     assert 'foto.getAttribute("src")' in JS
+
+
+def test_tema_escuro_da_academy_e_escopado_no_body():
+    assert "body.academy{" in CSS
+    for seletor in ["body.academy .ac-hero{", "body.academy .ac-curso{", "body.academy .barra-agendar{"]:
+        assert seletor in CSS, seletor
+    # nada do tema escuro pode vazar para o studio
+    for bloco in re.findall(r"(?m)^[^@{]*\{[^}]*\}", CSS):
+        if "--ac-" in bloco.split("{")[1] and "body.academy" not in bloco.split("{")[0]:
+            assert False, bloco.split("{")[0]
+
+
+def test_css_nao_guarda_o_hero_antigo_que_ninguem_usa():
+    assert ".hero{" not in CSS
+    assert ".hero p{" not in CSS
+    assert ".hero-logo{" in CSS
+
+
+def test_academy_respeita_reducao_de_movimento():
+    assert ".ac-foto img,body.academy .btn{transition:none}" in CSS

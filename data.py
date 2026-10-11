@@ -201,6 +201,27 @@ FAQ = [
      "Pix, dinheiro e cartão. Nos pacotes, o valor anunciado é à vista no Pix, e no cartão entra a taxa da maquininha."),
 ]
 
+# Perguntas da Academy. Toda resposta só repete o que já está em CURSOS e em PAGAMENTO_CURSOS:
+# nada de carga horária da micropigmentação, número de vagas, data de turma ou promessa de renda.
+FAQ_ACADEMY = [
+    ("Preciso ter experiência para começar?",
+     "A formação começa pela aula teórica e pela biossegurança, antes de qualquer prática."),
+    ("Como é a prática?",
+     "Na micropigmentação, treino em pele sintética e depois prática em modelo real. "
+     "Nos cursos particulares, o modelo real é no segundo dia."),
+    ("O kit profissional está incluso?",
+     "Na Formação Profissional, não: os materiais da prática são disponibilizados durante o curso. "
+     "Na VIP, sim, com kit profissional inicial para levar."),
+    ("Tem certificado?",
+     "Sim, em todos os cursos."),
+    ("E depois do curso?",
+     "Suporte por 3 meses na Formação Profissional, e por 6 meses na VIP, com 2 encontros de mentoria "
+     "online e acompanhamento nos primeiros atendimentos. Nos particulares, suporte por até 6 meses "
+     "com acompanhamento por videochamada nos primeiros atendimentos."),
+    ("Como funciona o pagamento?",
+     f"{PAGAMENTO_CURSOS}."),
+]
+
 ALT_FOTOS = {
     "cilios-classico": "Extensão de cílios com volume brasileiro feita no studio Rainha do Olhar",
     "cilios-mega": "Extensão de cílios com mega volume",

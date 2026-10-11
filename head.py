@@ -16,9 +16,12 @@ def _gtm(gtm_id):
     return head, body
 
 
-def render_head(titulo, descricao, caminho, jsonlds, css_versao, gtm_id=None):
+def render_head(titulo, descricao, caminho, jsonlds, css_versao, gtm_id=None,
+                classe_body="", cor_tema="#F6F1E7"):
+    """classe_body e cor_tema deixam uma página sozinha trocar de tema sem duplicar o cabeçalho."""
     url = NEGOCIO["site_url"] + caminho
     gtm_head, gtm_body = _gtm(gtm_id) if gtm_id else ("", "")
+    body = f'<body class="{esc(classe_body)}">' if classe_body else "<body>"
     return (
         '<!DOCTYPE html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
@@ -30,12 +33,12 @@ def render_head(titulo, descricao, caminho, jsonlds, css_versao, gtm_id=None):
         f'<meta property="og:url" content="{esc(url)}">\n'
         '<meta property="og:type" content="website">\n'
         f'<meta property="og:image" content="{NEGOCIO["site_url"]}/img/og.jpg">\n'
-        '<meta name="theme-color" content="#F6F1E7">\n'
+        f'<meta name="theme-color" content="{esc(cor_tema)}">\n'
         '<link rel="icon" type="image/png" href="/static/logo-monograma.png">\n'
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
         f'<link rel="stylesheet" href="{esc(FONTES)}">\n'
         f'<link rel="stylesheet" href="/static/style.css?v={esc(css_versao)}">\n'
         + "\n".join(jsonlds) + "\n" + gtm_head
-        + "</head>\n<body>\n" + gtm_body
+        + "</head>\n" + body + "\n" + gtm_body
     )

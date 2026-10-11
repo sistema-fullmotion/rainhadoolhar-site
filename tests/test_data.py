@@ -124,3 +124,13 @@ def test_fotos_padrao_do_provador_apontam_para_fotos_do_site():
         ("labios", "micropigmentado"): None}
     for nome in padrao.values():
         assert nome is None or nome in FOTO_SERVICO.values()
+
+
+def test_faq_da_academy_tem_seis_perguntas_sem_fato_novo():
+    from data import FAQ_ACADEMY
+    assert len(FAQ_ACADEMY) == 6
+    assert [q for q, _ in FAQ_ACADEMY][0] == "Preciso ter experiência para começar?"
+    texto = " ".join(q + r for q, r in FAQ_ACADEMY)
+    assert "R$" not in texto and "—" not in texto
+    assert "vagas" not in texto.lower() and "carga horária" not in texto.lower()
+    assert "Suporte por 3 meses na Formação Profissional" in texto

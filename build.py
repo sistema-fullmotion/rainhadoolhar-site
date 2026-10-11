@@ -62,7 +62,7 @@ def build(saida: Path, pasta_fotos: Path, exigir_fotos: bool = True) -> None:
 
     paginas = {
         saida / "index.html": render_studio(fotos, css_versao=css_versao, gtm_id=GTM_ID),
-        saida / "academy" / "index.html": render_academy(css_versao=css_versao, gtm_id=GTM_ID),
+        saida / "academy" / "index.html": render_academy(fotos, css_versao=css_versao, gtm_id=GTM_ID),
     }
     for caminho, conteudo in paginas.items():
         proibidos = verificar_texto(_texto_visivel(conteudo))

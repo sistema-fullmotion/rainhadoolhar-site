@@ -67,7 +67,7 @@ def test_build_previa_sem_fotos(tmp_path):
 
 def test_build_barra_texto_proibido(tmp_path, monkeypatch):
     monkeypatch.setattr(modulo, "render_academy",
-                        lambda css_versao, gtm_id=None: "<html><body><p>Um tratamento</p></body></html>")
+                        lambda fotos, css_versao, gtm_id=None: "<html><body><p>Um tratamento</p></body></html>")
     (tmp_path / "fotos").mkdir()
     with pytest.raises(SystemExit) as erro:
         build(tmp_path / "dist", tmp_path / "fotos", exigir_fotos=False)
@@ -169,3 +169,34 @@ def test_webp_usados_pelo_provador_pesam_no_maximo_120_kb(tmp_path):
     assert usados
     for nome in usados:
         assert (saida / "img" / nome).stat().st_size <= 120 * 1024, nome
+
+
+def test_academy_recebe_as_fotos_otimizadas(tmp_path):
+    pasta = tmp_path / "fotos"
+    _fotos(pasta)
+    for nome in ["micropigmentacao-antes", "micropigmentacao-depois"]:
+        Image.new("RGB", (1080, 1350), (190, 170, 150)).save(pasta / f"{nome}.jpg")
+    saida = tmp_path / "dist"
+    build(saida, pasta, exigir_fotos=True)
+    academy = (saida / "academy" / "index.html").read_text(encoding="utf-8")
+    for nome in ["laryssa", "studio", "sobrancelha-design",
+                 "micropigmentacao-antes", "micropigmentacao-depois"]:
+        assert f"/img/{nome}-960.webp" in academy, nome
+
+
+def test_academy_sem_a_foto_do_studio_continua_de_pe(tmp_path):
+    pasta = tmp_path / "fotos"
+    _fotos(pasta)
+    (pasta / "studio.jpg").unlink()
+    saida = tmp_path / "dist"
+    build(saida, pasta, exigir_fotos=True)
+    academy = (saida / "academy" / "index.html").read_text(encoding="utf-8")
+    assert 'src="/img/studio-' not in academy
+    assert 'id="onde-e"' in academy
+
+
+def test_academy_da_previa_sem_fotos_nao_cita_nenhum_webp(tmp_path):
+    (tmp_path / "fotos").mkdir()
+    build(tmp_path / "dist", tmp_path / "fotos", exigir_fotos=False)
+    academy = (tmp_path / "dist" / "academy" / "index.html").read_text(encoding="utf-8")
+    assert ".webp" not in academy
