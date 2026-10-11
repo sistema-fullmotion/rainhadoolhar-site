@@ -1,3 +1,6 @@
+import re
+import shutil
+
 import pytest
 from PIL import Image
 import build as modulo
@@ -83,3 +86,30 @@ def test_paginas_reais_nao_mostram_precos(tmp_path):
     for rel in ["index.html", "academy/index.html"]:
         pagina = (tmp_path / "dist" / rel).read_text(encoding="utf-8")
         assert "R$" not in pagina, rel
+
+
+def test_build_copia_o_script_e_gera_as_fotos_do_provador(tmp_path):
+    pasta = tmp_path / "fotos"
+    _fotos(pasta)
+    for nome in ["provador-cilios-marcante", "provador-sobrancelha-lamination"]:
+        Image.new("RGB", (1080, 1350), (190, 170, 150)).save(pasta / f"{nome}.jpg")
+    saida = tmp_path / "dist"
+    build(saida, pasta, exigir_fotos=True)
+    assert (saida / "static" / "provador.js").exists()
+    assert (saida / "img" / "provador-cilios-marcante-960.webp").exists()
+    pagina = (saida / "index.html").read_text(encoding="utf-8")
+    assert "/static/provador.js?v=" in pagina
+    assert 'data-opcao="micropigmentado"' not in pagina
+
+
+def test_versao_dos_estaticos_muda_quando_o_script_muda(tmp_path, monkeypatch):
+    (tmp_path / "fotos").mkdir()
+    build(tmp_path / "a", tmp_path / "fotos", exigir_fotos=False)
+    versao_a = re.search(r"provador\.js\?v=(\w+)", (tmp_path / "a" / "index.html").read_text(encoding="utf-8")).group(1)
+    estatico = tmp_path / "static"
+    shutil.copytree(modulo.RAIZ / "static", estatico)
+    (estatico / "provador.js").write_text("/* mudou */", encoding="utf-8")
+    monkeypatch.setattr(modulo, "RAIZ", tmp_path)
+    build(tmp_path / "b", tmp_path / "fotos", exigir_fotos=False)
+    versao_b = re.search(r"provador\.js\?v=(\w+)", (tmp_path / "b" / "index.html").read_text(encoding="utf-8")).group(1)
+    assert versao_a != versao_b

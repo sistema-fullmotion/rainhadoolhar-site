@@ -33,7 +33,8 @@ def build(saida: Path, pasta_fotos: Path, exigir_fotos: bool = True) -> None:
         shutil.rmtree(saida)
     (saida / "academy").mkdir(parents=True)
     shutil.copytree(RAIZ / "static", saida / "static")
-    css_versao = hashlib.sha1((RAIZ / "static" / "style.css").read_bytes()).hexdigest()[:8]
+    estaticos = (RAIZ / "static" / "style.css").read_bytes() + (RAIZ / "static" / "provador.js").read_bytes()
+    css_versao = hashlib.sha1(estaticos).hexdigest()[:8]
 
     fotos = {}
     if not ausentes:

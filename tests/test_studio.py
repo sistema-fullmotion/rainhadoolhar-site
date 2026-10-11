@@ -23,6 +23,7 @@ def test_nao_existe_mais_secao_resultados():
 
 def test_todo_botao_de_agendar_vai_para_o_maapp():
     botoes = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(?:Agendar|Quero)[^<]*</a>', pagina())
+    botoes = [b for b in botoes if not b.startswith("https://wa.me/")]
     assert len(botoes) >= 9
     assert set(botoes) == {NEGOCIO["maapp_url"]}
 
@@ -102,31 +103,6 @@ def test_instagram_no_fim_de_servicos_sem_espaco_antes_de_fechar_o_link():
     assert not m.group(1).endswith(" ")
 
 
-# --- Hero com foto ---
-
-def test_hero_com_foto_carrega_eager_e_com_prioridade():
-    h = pagina()
-    assert 'id="inicio"' in h
-    trecho_hero = h.split('id="servicos"')[0]
-    assert "hero-960.webp" in trecho_hero
-    assert 'loading="eager"' in trecho_hero
-    assert 'fetchpriority="high"' in trecho_hero
-    assert ALT_FOTOS["hero"] in trecho_hero
-
-
-def test_hero_mantem_h1_e_cta_originais():
-    h = pagina()
-    assert "<h1>Um olhar pra cada mulher. <em>Escolha o seu.</em></h1>" in h
-    assert 'data-cta="hero"' in h
-
-
-def test_hero_sem_foto_nao_quebra():
-    h = render_studio({}, css_versao="teste")
-    assert 'id="inicio"' in h
-    assert "<h1>Um olhar pra cada mulher. <em>Escolha o seu.</em></h1>" in h
-    assert 'class="hero-foto"' not in h
-
-
 # --- Serviços viram cartão com foto quando existe foto ---
 
 def test_servicos_com_foto_viram_cartoes():
@@ -157,3 +133,30 @@ def test_servicos_sem_mapeamento_de_foto_ficam_em_lista_compacta():
 def test_cartao_servico_tem_botao_agendar_com_rastreio():
     h = pagina()
     assert re.search(r'class="cartao-servico">.*?data-cta="servico-cilios-classico"', h, re.S)
+
+
+# --- Provador de olhar no topo ---
+
+def test_topo_e_o_provador():
+    h = pagina()
+    topo = h.split('id="servicos"')[0]
+    assert '<section id="inicio" class="provador">' in topo
+    assert 'id="provador-dados"' in topo
+    assert "<h1>Um olhar pra cada mulher. <em>Escolha o seu.</em></h1>" in topo
+    assert 'class="hero-foto"' not in h and 'data-cta="hero"' not in h
+
+
+def test_script_do_provador_carregado_com_defer_no_fim():
+    h = pagina()
+    assert '<script src="/static/provador.js?v=teste" defer></script>' in h
+    assert h.index("provador.js") > h.index('class="barra-agendar"')
+
+
+def test_whatsapp_do_provador_usa_o_numero_oficial():
+    assert 'href="https://wa.me/5521967748281?text=' in pagina()
+
+
+def test_sem_fotos_o_provador_aparece_sem_imagem():
+    h = render_studio({}, css_versao="teste")
+    assert '<section id="inicio" class="provador">' in h
+    assert 'class="provador-foto sem-foto"' in h

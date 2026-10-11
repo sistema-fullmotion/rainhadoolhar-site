@@ -1,8 +1,9 @@
-"""Página principal: o studio. Nove seções, na ordem revisada em 14/09/2026."""
+"""Página principal: o studio. Nove seções, na ordem revisada em 14/09/2026, com o provador no topo."""
 from components import esc, cta, imagem, ornamento
 from data import (NEGOCIO, HORARIO, HORARIO_FECHADO, SERVICOS, FOTO_SERVICO, PRIMEIRO_OLHAR, COMBOS, PACOTES,
                   AVALIACOES_STUDIO, FAQ, ALT_FOTOS)
 from head import render_head
+from provador import render_provador
 from schema import beauty_salon, jsonld_script
 
 TITULO = "Extensão de cílios e sobrancelhas no Rio Comprido | Rainha do Olhar"
@@ -12,25 +13,7 @@ MAAPP = NEGOCIO["maapp_url"]
 
 
 def _inicio(fotos):
-    n = NEGOCIO
-    tem_foto = bool(fotos and fotos.get("hero"))
-    foto_html = ""
-    if tem_foto:
-        img = imagem("hero", fotos["hero"], ALT_FOTOS["hero"], sizes="(min-width: 720px) 45vw, 100vw",
-                     carregar="eager", prioridade=True)
-        foto_html = f'<figure class="hero-foto">{img}</figure>'
-    classe = "hero tem-foto" if tem_foto else "hero"
-    return f'''<section id="inicio" class="{classe}">
-  <div class="hero-conteudo">
-    <img class="hero-logo" src="/static/logo-lockup.png" alt="{esc(n['nome'])} Studio e Academy" width="398" height="178">
-    <p class="eyebrow">Studio de cílios e sobrancelhas no {esc(n['bairro'])}</p>
-    <h1>Um olhar pra cada mulher. <em>Escolha o seu.</em></h1>
-    <p class="lead">Extensão de cílios, design de sobrancelhas e lábios, com quem também forma profissionais.</p>
-    {cta(MAAPP, "Agendar horário", "hero")}
-    <p class="selo">{esc(n['nota_google'])} no Google · {n['avaliacoes_google']} avaliações</p>
-  </div>
-  {foto_html}
-</section>'''
+    return render_provador(fotos or {}, NEGOCIO["telefone_e164"], MAAPP)
 
 
 def _antes_depois_micropigmentacao(fotos):
@@ -204,4 +187,5 @@ def render_studio(fotos, css_versao, gtm_id=None):
     secoes = [_inicio(fotos), _servicos(fotos), _primeiro_olhar(), _avaliacoes(), _quem_faz(fotos),
               _combos_pacotes(), _manutencao(), _como_chegar(), _perguntas()]
     corpo = "\n".join(s for s in secoes if s)
-    return head + "<main>\n" + corpo + "\n</main>\n" + _rodape() + "\n</body>\n</html>\n"
+    script = f'<script src="/static/provador.js?v={css_versao}" defer></script>\n'
+    return head + "<main>\n" + corpo + "\n</main>\n" + _rodape() + "\n" + script + "</body>\n</html>\n"
