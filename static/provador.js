@@ -109,6 +109,6 @@
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entradas) {
       document.body.classList.toggle("provador-visivel", entradas[0].isIntersecting);
-    }, { threshold: 0.25 }).observe(secao);
+    }, { threshold: 0 }).observe(secao);
   }
 })();
