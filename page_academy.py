@@ -3,15 +3,20 @@
 A identidade escura mora na classe academy do <body> (ver static/style.css).
 Toda foto é opcional: sem o arquivo, a seção continua de pé, só sem imagem.
 """
-from components import esc, cta, imagem, ornamento
+from components import esc, cta, imagem, ornamento, link_whatsapp
 from data import (NEGOCIO, CURSOS, PAGAMENTO_CURSOS, AVALIACAO_ACADEMY, FAQ_ACADEMY,
-                  ALT_FOTOS)
+                  ALT_FOTOS, WHATSAPP_ACADEMY)
 from head import render_head
 from schema import curso, jsonld_script
 
 TITULO = "Curso de micropigmentação no Rio de Janeiro | Rainha do Olhar Academy"
 DESCRICAO = ("Formação em micropigmentação de sobrancelhas e cursos particulares de design e extensão de cílios, "
              "presenciais no Rio Comprido, com prática em modelo real.")
+def _zap(contexto):
+    """Link do WhatsApp do curso com a mensagem do contexto já escrita."""
+    return link_whatsapp(NEGOCIO["telefone_e164"], WHATSAPP_ACADEMY[contexto])
+
+
 BOTAO = "Quero saber das próximas datas"
 CLASSE_BODY = "academy"
 COR_TEMA = "#17120C"
@@ -95,7 +100,7 @@ def _inicio(fotos):
     {_rotulo("Rainha do Olhar Academy")}
     <h1>Aprenda com quem <em>forma profissionais.</em></h1>
     <p class="lead">Formação em micropigmentação e cursos particulares de design e cílios, presenciais no studio do {esc(n['bairro'])}, com prática em modelo real.</p>
-    {cta(n['whatsapp_url'], BOTAO, "academy-hero")}
+    {cta(_zap('geral'), BOTAO, "academy-hero")}
     <p class="ac-selo"><span>Mais de 100 alunas formadas</span><span>{esc(n['nota_google'])} no Google com {n['avaliacoes_google']} avaliações</span></p>
   </div>
   {foto}
@@ -149,7 +154,7 @@ def _micropigmentacao(fotos):
   <p class="secao-intro">Dois caminhos para a mesma formação: a Profissional e a VIP, individual e com kit profissional para levar.</p>
   <div class="ac-colunas">
     <div class="ac-cursos">{_cursos("micropigmentacao")}
-      {cta(NEGOCIO['whatsapp_url'], "Falar sobre a formação", "academy-micro", "secundario")}
+      {cta(_zap('micropigmentacao'), "Falar sobre a formação", "academy-micro", "secundario")}
     </div>
     {_antes_depois(fotos)}
   </div>
@@ -177,7 +182,7 @@ def _design_cilios(fotos):
     {lado}
   </div>
   {lista}
-  <div class="centro">{cta(NEGOCIO['whatsapp_url'], "Falar sobre os particulares", "academy-particulares", "secundario")}</div>
+  <div class="centro">{cta(_zap('particulares'), "Falar sobre os particulares", "academy-particulares", "secundario")}</div>
 </section>'''
 
 
@@ -239,7 +244,7 @@ def _contato():
   <div class="ac-final">
     <h2>Quer saber das <em>próximas datas?</em></h2>
     <p>Me chama no WhatsApp e eu te explico qual curso combina com o seu momento.</p>
-    {cta(n['whatsapp_url'], BOTAO, "academy-contato")}
+    {cta(_zap('geral'), BOTAO, "academy-contato")}
   </div>
 </section>'''
 
@@ -251,7 +256,7 @@ def _rodape():
   <p>{esc(n['nome'])} · {esc(n['assinatura'])}</p>
   <p><a href="/">Studio</a> · <a href="{esc(n['instagram_url'])}" target="_blank" rel="noopener">@{esc(n['instagram_usuario'])}</a></p>
 </footer>
-<div class="barra-agendar">{cta(n['whatsapp_url'], BOTAO, "barra-fixa")}</div>'''
+<div class="barra-agendar">{cta(_zap('geral'), BOTAO, "barra-fixa")}</div>'''
 
 
 def render_academy(fotos, css_versao, gtm_id=None):

@@ -1,5 +1,6 @@
 """Pedaços de HTML das duas páginas e a regra de texto da marca."""
 import html
+from urllib.parse import quote
 
 PROIBIDAS = ["—", "tratamento", "paciente", "clínica", "clinica", "zero risco", "não cai",
              "dura para sempre", "dura pra sempre", "permanente", "grátis", "gratis"]
@@ -12,6 +13,11 @@ def esc(texto):
 def verificar_texto(texto):
     baixo = texto.lower()
     return [termo for termo in PROIBIDAS if termo in baixo]
+
+
+def link_whatsapp(numero_e164, texto):
+    """Link do WhatsApp com a mensagem já escrita (wa.me com ?text=)."""
+    return f"https://wa.me/{numero_e164.lstrip('+')}?text={quote(texto)}"
 
 
 def cta(href, texto, rastreio, variante="primario"):

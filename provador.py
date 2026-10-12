@@ -1,13 +1,8 @@
 """Topo da página do studio: o provador de olhar (cílios, sobrancelha e lábios com fotos reais)."""
 import json
-from urllib.parse import quote
 
-from components import caminhos_imagem, esc, imagem
+from components import caminhos_imagem, esc, imagem, link_whatsapp
 from data import NEGOCIO, PROVADOR, PROVADOR_MENSAGEM_PADRAO
-
-
-def link_whatsapp(numero_e164, texto):
-    return f"https://wa.me/{numero_e164.lstrip('+')}?text={quote(texto)}"
 
 
 def _chaves_de_foto(opcao):

@@ -1,9 +1,10 @@
 import json
 import re
 from pathlib import Path
+from urllib.parse import unquote
 import build as modulo
 from page_academy import render_academy
-from data import NEGOCIO, ALT_FOTOS, FAQ_ACADEMY
+from data import NEGOCIO, ALT_FOTOS, FAQ_ACADEMY, WHATSAPP_ACADEMY
 
 FOTOS = {nome: {"larguras": [480, 960], "w": 960, "h": 1200} for nome in ALT_FOTOS}
 
@@ -23,16 +24,47 @@ def test_pagina_nao_mostra_nenhum_preco():
     assert 'class="preco-oferta"' not in h
 
 
-def test_botoes_vao_para_o_whatsapp():
+BASE_ZAP = "https://wa.me/5521967748281?text="
+
+
+def _texto_do_link(href):
+    assert href.startswith(BASE_ZAP)
+    return unquote(href[len(BASE_ZAP):])
+
+
+def test_botoes_vao_para_o_whatsapp_com_a_mensagem_pronta():
     botoes = re.findall(r'<a [^>]*href="([^"]+)"[^>]*>Quero saber das próximas datas</a>', pagina())
     assert len(botoes) == 3
-    assert set(botoes) == {NEGOCIO["whatsapp_url"]}
+    assert {_texto_do_link(b) for b in botoes} == {WHATSAPP_ACADEMY["geral"]}
 
 
-def test_todo_botao_da_academy_vai_para_o_whatsapp():
-    hrefs = re.findall(r'<a class="btn[^"]*" href="([^"]+)"', pagina())
+def test_todo_botao_da_academy_vai_para_o_whatsapp_com_o_texto_da_secao():
+    h = pagina()
+    hrefs = re.findall(r'<a class="btn[^"]*" href="([^"]+)"', h)
     assert len(hrefs) == 5
-    assert set(hrefs) == {NEGOCIO["whatsapp_url"]}
+    assert all(href.startswith(BASE_ZAP) for href in hrefs)
+    assert "wa.me/message/" not in h
+    por_rastreio = dict((r, _texto_do_link(href)) for href, r in
+                        re.findall(r'<a class="btn[^"]*" href="([^"]+)"[^>]*data-cta="([^"]+)"', h))
+    assert por_rastreio == {
+        "academy-hero": WHATSAPP_ACADEMY["geral"],
+        "academy-micro": WHATSAPP_ACADEMY["micropigmentacao"],
+        "academy-particulares": WHATSAPP_ACADEMY["particulares"],
+        "academy-contato": WHATSAPP_ACADEMY["geral"],
+        "barra-fixa": WHATSAPP_ACADEMY["geral"],
+    }
+
+
+def test_mensagens_do_whatsapp_da_academy_sao_exatamente_estas():
+    assert WHATSAPP_ACADEMY == {
+        "geral": "Oi, Laryssa! Quero fazer o curso. Me conta as próximas datas?",
+        "micropigmentacao": "Oi, Laryssa! Quero fazer a formação em micropigmentação. Me conta as próximas datas?",
+        "particulares": "Oi, Laryssa! Quero fazer o curso particular de design ou de cílios. Me conta as próximas datas?",
+    }
+
+
+def test_whatsapp_da_academy_usa_o_numero_do_negocio():
+    assert BASE_ZAP == f"https://wa.me/{NEGOCIO['telefone_e164'].lstrip('+')}?text="
 
 
 def test_um_course_por_curso_no_jsonld():

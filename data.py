@@ -279,6 +279,13 @@ FOTOS_PROVADOR = [o["foto"] for g in PROVADOR for o in g["opcoes"] if o["foto"]]
 ALT_FOTOS.update({o["foto"]: o["alt"] for g in PROVADOR for o in g["opcoes"] if o["foto"]})
 PROVADOR_MENSAGEM_PADRAO = "Oi, Laryssa! Vim pelo site e quero agendar."
 
+# Mensagem já escrita quando o botão da Academy abre o WhatsApp, uma por contexto.
+WHATSAPP_ACADEMY = {
+    "geral": "Oi, Laryssa! Quero fazer o curso. Me conta as próximas datas?",
+    "micropigmentacao": "Oi, Laryssa! Quero fazer a formação em micropigmentação. Me conta as próximas datas?",
+    "particulares": "Oi, Laryssa! Quero fazer o curso particular de design ou de cílios. Me conta as próximas datas?",
+}
+
 
 def preco(nome):
     for categoria in SERVICOS:
